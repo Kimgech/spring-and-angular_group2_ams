@@ -13,4 +13,9 @@ public class Comment {
 
     @Column(name = "caption")
     private String caption;
+
+    @ManyToOne
+    @JoinColumn(name = "article_id",referencedColumnName = "id")
+    private Article article;
+
 }
