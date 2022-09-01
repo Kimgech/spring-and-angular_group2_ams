@@ -5,7 +5,7 @@ import java.util.UUID;
 
 @Entity(name = "AppUser")
 @Table(name = "app_user")
-public class User {
+public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
