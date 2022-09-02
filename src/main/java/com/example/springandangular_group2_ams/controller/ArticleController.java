@@ -51,8 +51,10 @@ public class ArticleController {
         res.setMessage("Successfully fetch all articles");
         res.setStatus("200");
         res.setPayload(payload.getContent());
-        res.getTotalPages();
-        res.getTotalElements();
+        res.setPage(page);
+        res.setSize(size);
+        res.setTotalPages(payload.getTotalPages());
+        res.setTotalElements(payload.getTotalElements());
         return res;
 
     }
