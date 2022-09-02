@@ -16,7 +16,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ArticleServiceImp implements ArticleService {
     private final ArticleRepository articleRepository;
-//    private final CategoryRepository categoryRepository;
 
     @Override
     public ArticleDto findById(UUID articleId) {
@@ -24,7 +23,7 @@ public class ArticleServiceImp implements ArticleService {
         if (article.isPresent()) {
             return article.get().toDto();
         }
-        throw new NoSuchElementException("Article not found");
+        throw new NoSuchElementException("article not found");
     }
 
     @Override
@@ -35,4 +34,25 @@ public class ArticleServiceImp implements ArticleService {
 
         return result.map(Article::toDto);
     }
+
+    @Override
+    public Boolean delete(UUID articleId) {
+        //find article
+        var cat =  articleRepository.findById(articleId);
+        if(cat.isPresent()){
+            articleRepository.delete(cat.get());
+            return true;
+        }
+        throw new NoSuchElementException("article not found");
+//        articleRepository.deleteById(articleId);
+//        return true;
+    }
 }
+
+
+
+
+
+
+
+

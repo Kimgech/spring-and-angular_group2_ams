@@ -11,5 +11,6 @@ public interface ArticleService {
 
     Page<ArticleDto> fetch(Integer page, Integer size);
 
+    Boolean delete(UUID articleId);
 
 }

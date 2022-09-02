@@ -20,9 +20,7 @@ public class ArticleController {
 
     @GetMapping("/{id}")
     public SuccessResponse<Object> fetchById(@PathVariable UUID id){
-
         var payload = articleService.findById(id);
-
 //        if (payload!=null){
 //            var res = new SuccessResponse<>();
 //            res.setMessage("Successfully fetch article");
@@ -36,7 +34,7 @@ public class ArticleController {
 //            return res;
 //        }
         var res = new SuccessResponse<>();
-            res.setMessage("Successfully fetch article");
+            res.setMessage("successfully fetch article");
             res.setStatus("200");
             res.setPayload(payload);
             return res;
@@ -56,6 +54,40 @@ public class ArticleController {
         res.setTotalPages(payload.getTotalPages());
         res.setTotalElements(payload.getTotalElements());
         return res;
+    }
 
+    @DeleteMapping("/{id}")
+    public SuccessResponse<?> delete(@PathVariable UUID id){
+        articleService.delete(id);
+//        var payload = articleService.findById(id);
+        var res = new SuccessResponse<>();
+        res.setMessage("deleted article successfully");
+        res.setStatus("200");
+//        res.setPayload(articleService.findById(id));
+        return res;
+//        var res = new SuccessResponse<>();
+//        res.setMessage("deleted article successfully");
+//        res.setStatus("200");
+//        res.setPayload(payload);
+//        return res;
+//        return new SuccessResponse<>(
+//                "deleted article successfully",
+//                "200",
+//                articleService.findById(id)
+//articleService.findById(id);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
