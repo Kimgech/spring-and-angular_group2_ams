@@ -1,11 +1,13 @@
 package com.example.springandangular_group2_ams.model.entities;
 
+import com.example.springandangular_group2_ams.model.dto.ArticleDto;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity(name = "Article")
 @Table(name = "articles")
@@ -37,13 +39,22 @@ public class Article {
     private List<Comment> commentList = new ArrayList<>();
 
 
-
     @ManyToMany
     @JoinTable(name = "article_categories",
             joinColumns = @JoinColumn(name = "article_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private List<Category> categoryList;
+    private List<Category> articleCategory;
 
-
+    public ArticleDto toDto(){
+        return new ArticleDto(
+                this.id,
+                this.title,
+                this.description,
+                this.isPublished,
+                this.articleCategory.stream()
+                        .map(Category::toDto)
+                        .collect(Collectors.toList())
+        );
+    }
 }
