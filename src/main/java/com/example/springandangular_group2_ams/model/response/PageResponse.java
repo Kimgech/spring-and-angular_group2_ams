@@ -4,11 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SuccessResponse<T> {
+@Data
+public class PageResponse<T> {
     private String message;
     private String status;
     private T payload;
+    private Integer page;
+    private Integer size;
+    private Integer totalPages;
+    private Long totalElements;
 }
