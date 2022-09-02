@@ -1,5 +1,7 @@
 package com.example.springandangular_group2_ams.model.entities;
 
+import com.example.springandangular_group2_ams.model.dto.AppUserDto;
+import com.example.springandangular_group2_ams.model.dto.ArticleDto;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -16,7 +18,8 @@ public class AppUser {
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
-    )    private UUID id;
+    )
+    private UUID id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -35,4 +38,7 @@ public class AppUser {
     )
     private List<Article> bookmark;
 
+    public AppUserDto toDto() {
+        return new AppUserDto(this.id,this.name,this.role);
+    }
 }

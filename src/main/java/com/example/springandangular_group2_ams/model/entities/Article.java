@@ -1,11 +1,13 @@
 package com.example.springandangular_group2_ams.model.entities;
 
+import com.example.springandangular_group2_ams.model.dto.AppUserDto;
 import com.example.springandangular_group2_ams.model.dto.ArticleDto;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -54,6 +56,10 @@ public class Article {
                 this.isPublished,
                 this.articleCategory.stream()
                         .map(Category::toDto)
+                        .collect(Collectors.toList()),
+                this.user.toDto(),
+                this.commentList.stream()
+                        .map(Comment::toDto)
                         .collect(Collectors.toList())
         );
     }
