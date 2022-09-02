@@ -1,5 +1,7 @@
 package com.example.springandangular_group2_ams.model.entities;
 
+import com.example.springandangular_group2_ams.model.dto.CategoryDto;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -13,5 +15,9 @@ public class Category {
 
     @Column(name = "name" , length = 100, nullable = false)
     private String name;
+
+    public CategoryDto toDto(){
+        return new CategoryDto(this.id,this.name);
+    }
 
 }
