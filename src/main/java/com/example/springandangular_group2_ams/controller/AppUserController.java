@@ -18,22 +18,32 @@ public class AppUserController {
 
     private final AppUserService appUserService;
     @GetMapping("{id}")
-    public AppUserDto fetchById(@PathVariable UUID id){
-        return appUserService.fetchById(id);
+    public SuccessResponse<?>fetchById(@PathVariable UUID id){
+        var payload =  appUserService.fetchById(id);
+        var res = new SuccessResponse<>();
+        res.setMessage("teacher found");
+        res.setStatus("200");
+        res.setPayload(payload);
+        return res;
     }
 
     @PostMapping
-    public AppUserDto create(@RequestBody AppUserRequest categoryRequest) {
-        return appUserService.create(categoryRequest);
+    public SuccessResponse<?>create(@RequestBody AppUserRequest categoryRequest) {
+        var payload =  appUserService.create(categoryRequest);
+        var res = new SuccessResponse<>();
+        res.setMessage("");
+        res.setStatus("201");
+        res.setPayload(payload);
+        return res;
     }
 
     @DeleteMapping("/{id}")
     public SuccessResponse<?>delete(@PathVariable UUID id){
-      appUserService.delete(id);
+     var payload =  appUserService.delete(id);
         var res = new SuccessResponse<>();
                res.setMessage("delete appUser successfully");
                res.setStatus("200");
-               res.setPayload("ok");
+               res.setPayload(payload);
                 return res;
     }
 

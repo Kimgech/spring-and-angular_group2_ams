@@ -57,7 +57,7 @@ public class AppUserServiceImp implements AppUserService {
     public AppUserDto update(UUID appUserId, AppUserRequest appUserRequest) {
         var cat = appUserRepository.findById(appUserId);
         if(cat.isPresent()){
-            var catEntity = appUserRequest.toEntities();
+            var catEntity = appUserRequest.toEntities(appUserId);
             return appUserRepository
                     .save(catEntity)
                     .toDto();

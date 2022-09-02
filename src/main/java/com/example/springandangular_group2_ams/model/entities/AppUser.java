@@ -27,7 +27,7 @@ public class AppUser {
             strategy = "org.hibernate.id.UUIDGenerator"
     )    private UUID id;
 
-    @Column(name = "name", nullable = false)
+    @Column(unique = true, name = "name", nullable = false)
     private String name;
 
     @Column(name = "role", nullable = false)
