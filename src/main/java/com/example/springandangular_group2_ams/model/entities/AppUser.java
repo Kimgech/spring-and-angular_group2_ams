@@ -1,5 +1,10 @@
 package com.example.springandangular_group2_ams.model.entities;
 
+import com.example.springandangular_group2_ams.model.dto.AppUserDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -9,6 +14,10 @@ import java.util.UUID;
 
 @Entity(name = "AppUser")
 @Table(name = "app_users")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class AppUser {
 
     @Id
@@ -22,7 +31,8 @@ public class AppUser {
     private String name;
 
     @Column(name = "role", nullable = false)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "user")
     private List<Article> articles = new ArrayList<>();
@@ -34,5 +44,16 @@ public class AppUser {
             inverseJoinColumns = @JoinColumn(name = "bookmarked_article_id")
     )
     private List<Article> bookmark;
+
+    public AppUser(UUID id, String name, Role role) {
+        this.id = id;
+        this.name = name;
+        this.role = role;
+    }
+
+
+    public AppUserDto toDto(){
+        return new AppUserDto(this.id, this.name, this.role);
+    }
 
 }
