@@ -1,5 +1,6 @@
 package com.example.springandangular_group2_ams.model.entities;
 
+import com.example.springandangular_group2_ams.model.dto.AppUserDto;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -25,7 +26,7 @@ public class AppUser {
     private String role;
 
     @OneToMany(mappedBy = "user")
-    private List<Article> articles = new ArrayList<>();
+    private List<Article> articles;
 
 
     @ManyToMany
@@ -35,4 +36,7 @@ public class AppUser {
     )
     private List<Article> bookmark;
 
+    public AppUserDto toDto(){
+        return new AppUserDto(this.id,this.name,this.role);
+    }
 }
