@@ -1,6 +1,8 @@
 package com.example.springandangular_group2_ams.model.entities;
 
 import com.example.springandangular_group2_ams.model.dto.AppUserDto;
+import com.example.springandangular_group2_ams.model.dto.AppUserDto;
+import com.example.springandangular_group2_ams.model.dto.ArticleDto;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

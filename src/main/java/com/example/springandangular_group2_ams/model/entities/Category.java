@@ -7,7 +7,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.UUID;
 
-@AllArgsConstructor
+
 @Data
 @Entity(name = "Category")
 @Table(name = "categories")
@@ -21,7 +21,7 @@ public class Category {
     private String name;
 
     public CategoryDto toDto(){
-        return new CategoryDto(this.id, this.name);
+        return new CategoryDto(this.id,this.name);
     }
 
 }

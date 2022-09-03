@@ -4,6 +4,7 @@ import com.example.springandangular_group2_ams.model.dto.ArticleDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.example.springandangular_group2_ams.model.dto.AppUserDto;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -62,7 +63,22 @@ public class Article {
                 this.categoryList.stream()
                         .map(Category::toDto)
                         .collect(Collectors.toList()),
-                this.user.toDto()
+                this.user.toDto(),
+                this.commentList.stream()
+                        .map(Comment::toDto)
+                        .collect(Collectors.toList())
         );
     }
+//    public ArticleDto toDto(){
+//        return new ArticleDto(
+//                this.id,
+//                this.title,
+//                this.description,
+//                this.isPublished,
+//                this.categoryList.stream()
+//                        .map(Category::toDto)
+//                        .collect(Collectors.toList()),
+//                this.user.toDto()
+//        );
+//    }
 }
