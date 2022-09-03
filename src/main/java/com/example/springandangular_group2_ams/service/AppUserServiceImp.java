@@ -24,7 +24,7 @@ public class AppUserServiceImp implements AppUserService {
         var response = appUserRepository.findById(id);
 
         if (response.isPresent()) return response.get().toDto();
-        throw new NoSuchElementException("AppUser not found");
+        throw new NoSuchElementException("teacher not found: id =" + id);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class AppUserServiceImp implements AppUserService {
     @Override
     public Boolean delete(UUID appUserId) {
         var cat = appUserRepository.findById(appUserId);
-        if(cat.isPresent()){
+        if (cat.isPresent()) {
             appUserRepository.delete(cat.get());
             return true;
         }
@@ -55,13 +55,8 @@ public class AppUserServiceImp implements AppUserService {
 
     @Override
     public AppUserDto update(UUID appUserId, AppUserRequest appUserRequest) {
-        var cat = appUserRepository.findById(appUserId);
-        if(cat.isPresent()){
-            var catEntity = appUserRequest.toEntities(appUserId);
-            return appUserRepository
-                    .save(catEntity)
-                    .toDto();
-        }
-        throw new NoSuchElementException("appUer not found");
+        var catEntity = appUserRequest.toEntities(appUserId);
+        var SaveUser = appUserRepository.save(catEntity);
+        return SaveUser.toDto();
     }
 }

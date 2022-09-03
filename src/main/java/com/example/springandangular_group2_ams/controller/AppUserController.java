@@ -17,41 +17,78 @@ import java.util.UUID;
 public class AppUserController {
 
     private final AppUserService appUserService;
+
     @GetMapping("{id}")
-    public SuccessResponse<?>fetchById(@PathVariable UUID id){
-        var payload =  appUserService.fetchById(id);
+    public SuccessResponse<?> fetchById(@PathVariable UUID id) {
         var res = new SuccessResponse<>();
-        res.setMessage("teacher found");
+        try {
+            var payload = appUserService.fetchById(id);
+            if (id.toString().isEmpty()) {
+                res.setMessage("Not found");
+                res.setStatus("206");
+            } else {
+                res.setMessage("teacher found");
+                res.setStatus("200");
+                res.setPayload(payload);
+            }
+        } catch (Exception e) {
+            res.setMessage(e.getMessage());
+            res.setStatus("206");
+        }
+
+        return res;
+    }
+
+    @PostMapping
+    public SuccessResponse<?> create(@RequestBody AppUserRequest appUserRequest) {
+        var res = new SuccessResponse<>();
+        try {
+            var payload = appUserService.create(appUserRequest);
+            if (appUserRequest.getName().isEmpty()) {
+                res.setMessage("Not found");
+                res.setStatus("500");
+            } else {
+                res.setMessage("");
+                res.setStatus("201");
+                res.setPayload(payload);
+            }
+        } catch (Exception e) {
+            res.setMessage(e.getMessage());
+            res.setStatus("500");
+        }
+        return res;
+
+    }
+
+    @DeleteMapping("/{id}")
+    public SuccessResponse<?> delete(@PathVariable UUID id) {
+        var payload = appUserService.delete(id);
+        var res = new SuccessResponse<>();
+        res.setMessage("delete appUser successfully");
         res.setStatus("200");
         res.setPayload(payload);
         return res;
     }
 
-    @PostMapping
-    public SuccessResponse<?>create(@RequestBody AppUserRequest categoryRequest) {
-        var payload =  appUserService.create(categoryRequest);
+    @PutMapping("/{id}")
+    public SuccessResponse<?> update(@RequestBody AppUserRequest appUserRequest, @PathVariable UUID id) {
         var res = new SuccessResponse<>();
-        res.setMessage("");
-        res.setStatus("201");
-        res.setPayload(payload);
+        try {
+            var payload = appUserService.update(id, appUserRequest);
+            if (id.toString().isEmpty()) {
+                res.setMessage("");
+                res.setStatus("500");
+            } else {
+                res.setMessage("");
+                res.setStatus("201");
+                res.setPayload(payload);
+            }
+        } catch (Exception e) {
+            res.setMessage(e.getMessage());
+            res.setStatus("500");
+        }
         return res;
     }
-
-    @DeleteMapping("/{id}")
-    public SuccessResponse<?>delete(@PathVariable UUID id){
-     var payload =  appUserService.delete(id);
-        var res = new SuccessResponse<>();
-               res.setMessage("delete appUser successfully");
-               res.setStatus("200");
-               res.setPayload(payload);
-                return res;
-    }
-
-    @PutMapping("/{id}")
-    public AppUserDto update(@RequestBody AppUserRequest appUserRequest, @PathVariable UUID id){
-        return appUserService.update(id, appUserRequest);
-    }
-
     @GetMapping
     public PageResponse<?> fetchAll(
             @RequestParam(defaultValue = "1") Integer page,
@@ -63,8 +100,16 @@ public class AppUserController {
         res.setMessage("successfully fetched teachers");
         res.setStatus("200");
         res.setPayload(payload.getContent());
-        res.setPage(payload.getNumber() + 1);
-        res.setSize(payload.getSize());
+        if(page <= payload.getTotalPages()){
+            if (page == payload.getTotalPages()){
+                res.setSize(((int) payload.getTotalElements()-(size*(page -1))));
+            }else {
+                res.setSize(payload.getSize());
+            }
+        }else{
+            res.setSize(0);
+        }
+        res.setPage(page);
         res.setTotalPages(payload.getTotalPages());
         res.setTotalElements(payload.getTotalElements());
         return res;
