@@ -28,14 +28,14 @@ public class AppUserServiceImp implements AppUserService {
     }
 
     @Override
-    public Page<AppUserDto> fetch(Integer page, Integer size) {
+    public Page<AppUserDto> fetchUser(Integer page, Integer size) {
         var pageRequest = PageRequest.of(page, size);
         var result = appUserRepository.findAll(pageRequest);
         return result.map(AppUser::toDto);
     }
 
     @Override
-    public AppUserDto create(AppUserRequest appUserRequest) {
+    public AppUserDto createUser(AppUserRequest appUserRequest) {
         var user = appUserRequest.toEntity();
 
         var savedUser = appUserRepository.save(user);
@@ -43,7 +43,7 @@ public class AppUserServiceImp implements AppUserService {
     }
 
     @Override
-    public Boolean delete(UUID appUserId) {
+    public Boolean deleteUser(UUID appUserId) {
         var cat = appUserRepository.findById(appUserId);
         if (cat.isPresent()) {
             appUserRepository.delete(cat.get());
@@ -54,7 +54,7 @@ public class AppUserServiceImp implements AppUserService {
 
 
     @Override
-    public AppUserDto update(UUID appUserId, AppUserRequest appUserRequest) {
+    public AppUserDto updateUser(UUID appUserId, AppUserRequest appUserRequest) {
         var catEntity = appUserRequest.toEntities(appUserId);
         var SaveUser = appUserRepository.save(catEntity);
         return SaveUser.toDto();

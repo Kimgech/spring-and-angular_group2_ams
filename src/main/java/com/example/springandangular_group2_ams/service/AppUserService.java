@@ -11,11 +11,11 @@ public interface AppUserService {
     
     AppUserDto fetchById(UUID id);
 
-    Page<AppUserDto> fetch(Integer page, Integer size);
+    Page<AppUserDto> fetchUser(Integer page, Integer size);
 
-    AppUserDto create(AppUserRequest appUserRequest);
+    AppUserDto createUser(AppUserRequest appUserRequest);
 
-    Boolean delete(UUID appUserId);
+    Boolean deleteUser(UUID appUserId);
 
-    AppUserDto update(UUID appUserId, AppUserRequest appUserRequest);
+    AppUserDto updateUser(UUID appUserId, AppUserRequest appUserRequest);
 }

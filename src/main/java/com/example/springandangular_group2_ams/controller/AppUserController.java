@@ -43,7 +43,7 @@ public class AppUserController {
     public SuccessResponse<?> create(@RequestBody AppUserRequest appUserRequest) {
         var res = new SuccessResponse<>();
         try {
-            var payload = appUserService.create(appUserRequest);
+            var payload = appUserService.createUser(appUserRequest);
             if (appUserRequest.getName().isEmpty()) {
                 res.setMessage("Not found");
                 res.setStatus("500");
@@ -62,7 +62,7 @@ public class AppUserController {
 
     @DeleteMapping("/{id}")
     public SuccessResponse<?> delete(@PathVariable UUID id) {
-        var payload = appUserService.delete(id);
+        var payload = appUserService.deleteUser(id);
         var res = new SuccessResponse<>();
         res.setMessage("delete appUser successfully");
         res.setStatus("200");
@@ -74,7 +74,7 @@ public class AppUserController {
     public SuccessResponse<?> update(@RequestBody AppUserRequest appUserRequest, @PathVariable UUID id) {
         var res = new SuccessResponse<>();
         try {
-            var payload = appUserService.update(id, appUserRequest);
+            var payload = appUserService.updateUser(id, appUserRequest);
             if (id.toString().isEmpty()) {
                 res.setMessage("");
                 res.setStatus("500");
@@ -94,7 +94,7 @@ public class AppUserController {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "5") Integer size
     ) {
-        var payload = appUserService.fetch(page - 1, size);
+        var payload = appUserService.fetchUser(page - 1, size);
 
         var res = new PageResponse<>();
         res.setMessage("successfully fetched teachers");
