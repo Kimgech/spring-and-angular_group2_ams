@@ -1,6 +1,5 @@
 package com.example.springandangular_group2_ams.controller;
 
-import com.example.springandangular_group2_ams.model.dto.AppUserDto;
 import com.example.springandangular_group2_ams.model.request.AppUserRequest;
 import com.example.springandangular_group2_ams.model.response.PageResponse;
 import com.example.springandangular_group2_ams.model.response.SuccessResponse;
@@ -48,7 +47,7 @@ public class AppUserController {
                 res.setMessage("Not found");
                 res.setStatus("500");
             } else {
-                res.setMessage("");
+                res.setMessage("created user");
                 res.setStatus("201");
                 res.setPayload(payload);
             }
@@ -105,24 +104,35 @@ public class AppUserController {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "5") Integer size
     ) {
-        var payload = appUserService.fetchUser(page - 1, size);
 
         var res = new PageResponse<>();
-        res.setMessage("successfully fetched teachers");
-        res.setStatus("200");
-        res.setPayload(payload.getContent());
-        if(page <= payload.getTotalPages()){
-            if (page == payload.getTotalPages()){
-                res.setSize(((int) payload.getTotalElements()-(size*(page -1))));
+        try{
+            if(size > 0 || page > 0){
+                var payload = appUserService.fetchUser(page - 1, size);
+                res.setMessage("successfully fetched teachers");
+                res.setStatus("200");
+                res.setPayload(payload.getContent());
+                if(page <= payload.getTotalPages()){
+                    if (page == payload.getTotalPages()){
+                        res.setSize(((int) payload.getTotalElements()-(size*(page -1))));
+                    }else {
+                        res.setSize(payload.getSize());
+                    }
+                }else{
+                    res.setSize(0);
+                }
+                res.setPage(page);
+                res.setTotalPages(payload.getTotalPages());
+                res.setTotalElements(payload.getTotalElements());
             }else {
-                res.setSize(payload.getSize());
+                res.setMessage("java.lang.IllegalStateException: page cannot be smaller than 1");
+                res.setStatus("500");
             }
-        }else{
-            res.setSize(0);
+        }catch (Exception e){
+            res.setMessage(e.getMessage());
+            res.setStatus("500");
         }
-        res.setPage(page);
-        res.setTotalPages(payload.getTotalPages());
-        res.setTotalElements(payload.getTotalElements());
+
         return res;
     }
 }
