@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryRequest {
+
     private String name;
 
     public Category toEntity(){
-        var category = new Category(null, this.name);
+        var category = new Category();
         return category;
     }
 }

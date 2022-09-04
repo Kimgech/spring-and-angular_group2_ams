@@ -15,4 +15,10 @@ public class PageResponse<T> {
     private Integer size;
     private Integer totalPages;
     private Long totalElements;
+
+
+    public PageResponse(String message, String status) {
+        this.message = message;
+        this.status = status;
+    }
 }

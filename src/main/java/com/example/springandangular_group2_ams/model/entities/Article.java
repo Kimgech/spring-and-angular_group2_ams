@@ -45,8 +45,6 @@ public class Article {
     @OneToMany(mappedBy = "article")
     private List<Comment> commentList;
 
-
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "article_categories",
             joinColumns = @JoinColumn(name = "article_id"),
