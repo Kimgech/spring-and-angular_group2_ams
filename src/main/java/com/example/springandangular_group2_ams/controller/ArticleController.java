@@ -28,17 +28,17 @@ public class ArticleController {
     }
 
     @GetMapping("/{id}")
-    public SuccessResponse<?> fetchById(@PathVariable UUID id){
+    public SuccessResponse<?> fetchArticleById(@PathVariable UUID id){
         var res = new SuccessResponse<>();
         try {
-            var payload = articleService.findById(id);
+            var payload = articleService.findArticleById(id);
             if (id!=null){
                 res.setMessage("successfully fetch article");
                 res.setStatus("200");
                 res.setPayload(payload);
             }
         }catch (Exception e){
-            res.setMessage("cannot found this article");
+            res.setMessage(e.getMessage());
             res.setStatus("206");
         }
         return res;
@@ -48,23 +48,29 @@ public class ArticleController {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "5") Integer size
     ){
-//        var res = new PageResponse<>();
         var res = new PageResponse<>();
         try{
-            var payload = articleService.fetch(page -1, size);
+            var payload = articleService.fetchAllArticles(page -1, size);
             if (page>0 || size>0){
                 res.setMessage("successfully fetch all articles");
                 res.setStatus("200");
                 res.setPayload(payload.getContent());
+                if(page <= payload.getTotalPages()){
+                    if (page == payload.getTotalPages()){
+                        res.setSize(((int) payload.getTotalElements()-(size*(page -1))));
+                    }else {
+                        res.setSize(payload.getSize());
+                    }
+                }else{
+                    res.setSize(0);
+                }
                 res.setPage(page);
-                res.setSize(size);
                 res.setTotalPages(payload.getTotalPages());
                 res.setTotalElements(payload.getTotalElements());
             }
         }catch (Exception e){
-            res = new PageResponse("page or size cannot be smaller than 1","200");
-//            res.setMessage("page or size cannot be smaller than 1");
-//            res.setStatus("500");
+            res.setMessage(e.getMessage());
+            res.setStatus("500");
         }
         return res;
     }
@@ -75,15 +81,39 @@ public class ArticleController {
         try{
             if(id!=null){
                 articleService.delete(id);
-                res.setMessage("deleted article successfully");
+                res.setMessage("deleted article with id " + id +" successfully");
                 res.setStatus("200");
             }
         }catch (Exception e){
-            res.setMessage("cannot found article to delete");
+//            res = new SuccessResponse("cannot find article to delete","500");
+            res.setMessage(e.getMessage());
             res.setStatus("500");
         }
         return res;
     }
+
+//    @GetMapping("/published")
+//    public PageResponse<?> fetchArticlesByIsPublished(
+//            @RequestParam(defaultValue = "1") Integer page,
+//            @RequestParam(defaultValue = "5") Integer size
+//    ){
+//        var res = new PageResponse<>();
+//        try {
+//            var payload = articleService.getArticlesByIsPublished(page -1,size);
+//            if(page>0 || size>0){
+//                res.setMessage("successfully fetch all articles that is published");
+//                res.setStatus("200");
+//                res.setPayload(payload.getContent());
+//                res.setPage(page);
+//                res.setSize(size);
+//                res.setTotalPages(payload.getTotalPages());
+//                res.setTotalElements(payload.getTotalElements());
+//            }
+//        }catch (Exception e){
+//            res.setMessage("ca");
+//        }
+//        return res;
+//    }
 }
 
 

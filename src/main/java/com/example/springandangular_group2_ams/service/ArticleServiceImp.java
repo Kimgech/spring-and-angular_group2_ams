@@ -32,17 +32,29 @@ public class ArticleServiceImp implements ArticleService{
         return null;
     }
 
+//    @Override
+//    public Page<ArticleDto> getArticlesByIsPublished(Integer page, Integer size) {
+//        var pageRequest = PageRequest.of(page,size);
+//
+//        var result = articleRepository.getArticlesByIsPublished(pageRequest);
+//
+//
+//        return result.map(Article::toDto);
+//    }
+
     @Override
-    public ArticleDto findById(UUID articleId) {
+    public ArticleDto findArticleById(UUID articleId) {
         var article = articleRepository.findById(articleId);
-        if (article.isPresent()) {
-            return article.get().toDto();
-        }
-        throw new NoSuchElementException("article not found");
+//        if (article.isPresent()) {
+//            return article.get().toDto();
+//        }
+//        throw new NoSuchElementException("article not found");
+
+        return article.get().toDto();
     }
 
     @Override
-    public Page<ArticleDto> fetch(Integer page, Integer size) {
+    public Page<ArticleDto> fetchAllArticles(Integer page, Integer size) {
         var pageRequest = PageRequest.of(page,size);
 
         var result = articleRepository.findAll(pageRequest);
