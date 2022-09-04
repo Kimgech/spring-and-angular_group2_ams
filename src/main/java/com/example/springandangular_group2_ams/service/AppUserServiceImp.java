@@ -49,7 +49,7 @@ public class AppUserServiceImp implements AppUserService {
             appUserRepository.delete(cat.get());
             return true;
         }
-        throw new NoSuchElementException("already deleted article with id: " + appUserId);
+        throw new NoSuchElementException("Not found id :" + appUserId );
     }
 
 

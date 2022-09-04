@@ -64,15 +64,9 @@ public class AppUserController {
         var res = new SuccessResponse<>();
         try{
             var payload = appUserService.deleteUser(id);
-            if(id.toString().isEmpty()){
-                res.setMessage("already deleted article with id: " + id );
-                res.setStatus("500");
-                res.setPayload(payload);
-            }else {
                 res.setMessage("deleted article with id: " + id);
                 res.setStatus("200");
                 res.setPayload(payload);
-            }
         }catch(Exception e){
                 res.setMessage(e.getMessage());
                 res.setStatus("500");
@@ -107,11 +101,13 @@ public class AppUserController {
 
         var res = new PageResponse<>();
         try{
+            // check size and page
             if(size > 0 || page > 0){
                 var payload = appUserService.fetchUser(page - 1, size);
                 res.setMessage("successfully fetched teachers");
                 res.setStatus("200");
                 res.setPayload(payload.getContent());
+                // check size
                 if(page <= payload.getTotalPages()){
                     if (page == payload.getTotalPages()){
                         res.setSize(((int) payload.getTotalElements()-(size*(page -1))));
