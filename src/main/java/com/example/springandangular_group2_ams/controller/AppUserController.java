@@ -22,14 +22,9 @@ public class AppUserController {
         var res = new SuccessResponse<>();
         try {
             var payload = appUserService.fetchById(id);
-            if (id.toString().isEmpty()) {
-                res.setMessage("Not found");
-                res.setStatus("206");
-            } else {
-                res.setMessage("teacher found");
-                res.setStatus("200");
-                res.setPayload(payload);
-            }
+            res.setMessage("teacher found");
+            res.setStatus("200");
+            res.setPayload(payload);
         } catch (Exception e) {
             res.setMessage(e.getMessage());
             res.setStatus("206");
@@ -43,14 +38,9 @@ public class AppUserController {
         var res = new SuccessResponse<>();
         try {
             var payload = appUserService.createUser(appUserRequest);
-            if (appUserRequest.getName().isEmpty()) {
-                res.setMessage("Not found");
-                res.setStatus("500");
-            } else {
-                res.setMessage("created user");
-                res.setStatus("201");
-                res.setPayload(payload);
-            }
+            res.setMessage("created user");
+            res.setStatus("201");
+            res.setPayload(payload);
         } catch (Exception e) {
             res.setMessage(e.getMessage());
             res.setStatus("500");
@@ -79,14 +69,9 @@ public class AppUserController {
         var res = new SuccessResponse<>();
         try {
             var payload = appUserService.updateUser(id, appUserRequest);
-            if (appUserRequest.getName().isEmpty()) {
-                res.setMessage("");
-                res.setStatus("500");
-            } else {
-                res.setMessage("");
-                res.setStatus("201");
-                res.setPayload(payload);
-            }
+            res.setMessage("");
+            res.setStatus("201");
+            res.setPayload(payload);
         } catch (Exception e) {
             res.setMessage(e.getMessage());
             res.setStatus("500");
@@ -109,11 +94,10 @@ public class AppUserController {
                 res.setPayload(payload.getContent());
                 // check size
                 if(page <= payload.getTotalPages()){
-                    if (page == payload.getTotalPages()){
-                        res.setSize(((int) payload.getTotalElements()-(size*(page -1))));
-                    }else {
-                        res.setSize(payload.getSize());
+                    if (page == payload.getTotalPages()) {
+                        res.setSize(((int) payload.getTotalElements() - (size * (page - 1))));
                     }
+                    res.setSize(payload.getSize());
                 }else{
                     res.setSize(0);
                 }
