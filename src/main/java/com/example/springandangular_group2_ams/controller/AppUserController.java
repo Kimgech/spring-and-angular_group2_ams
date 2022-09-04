@@ -62,11 +62,22 @@ public class AppUserController {
 
     @DeleteMapping("/{id}")
     public SuccessResponse<?> delete(@PathVariable UUID id) {
-        var payload = appUserService.deleteUser(id);
         var res = new SuccessResponse<>();
-        res.setMessage("delete appUser successfully");
-        res.setStatus("200");
-        res.setPayload(payload);
+        try{
+            var payload = appUserService.deleteUser(id);
+            if(id.toString().isEmpty()){
+                res.setMessage("already deleted article with id: " + id );
+                res.setStatus("500");
+                res.setPayload(payload);
+            }else {
+                res.setMessage("deleted article with id: " + id);
+                res.setStatus("200");
+                res.setPayload(payload);
+            }
+        }catch(Exception e){
+                res.setMessage(e.getMessage());
+                res.setStatus("500");
+        }
         return res;
     }
 
@@ -75,7 +86,7 @@ public class AppUserController {
         var res = new SuccessResponse<>();
         try {
             var payload = appUserService.updateUser(id, appUserRequest);
-            if (id.toString().isEmpty()) {
+            if (appUserRequest.getName().isEmpty()) {
                 res.setMessage("");
                 res.setStatus("500");
             } else {

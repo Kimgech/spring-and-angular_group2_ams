@@ -15,7 +15,7 @@ public class AppUserDto implements Serializable{
         private UUID id;
         private String name;
         private Role role;
-        private List<Article> bookmark;
+//        private List<Article> bookmark;
 
         public AppUserDto(UUID id, String name, Role role) {
                 this.id = id;
