@@ -2,6 +2,7 @@ package com.example.springandangular_group2_ams.controller;
 
 import com.example.springandangular_group2_ams.model.dto.ArticleDto;
 import com.example.springandangular_group2_ams.model.dto.CommentDto;
+import com.example.springandangular_group2_ams.model.entities.Article;
 import com.example.springandangular_group2_ams.model.request.ArticleRequest;
 import com.example.springandangular_group2_ams.model.request.CommentRequest;
 import com.example.springandangular_group2_ams.model.response.PageResponse;
@@ -21,26 +22,41 @@ public class ArticleController {
 
     @PostMapping
     public SuccessResponse<?> createPost(@RequestBody ArticleRequest articleRequest){
-
+        var response = new SuccessResponse<>();
         try {
             var payload = articleService.createPost(articleRequest);
             System.out.println(payload.toString());
             return new SuccessResponse<>(
-                    "create article successfully",
+                    "Insert Article successfully",
                     "201",
                     payload
             );
         }catch (Exception e){
-            var response = new SuccessResponse<>();
-            response.setMessage("cannot find teacher with id "+articleRequest.getUserId());
+            response.setMessage(e.getMessage() +articleRequest.getUserId());
             response.setStatus("500");
             return response;
         }
     }
 
     @PutMapping("/{id}")
-    public ArticleDto updatePost(@PathVariable UUID id, @RequestBody ArticleRequest articleRequest){
-        return articleService.updatePost(id,articleRequest);
+    public SuccessResponse<?> updatePost(@PathVariable UUID id, @RequestBody ArticleRequest articleRequest){
+        var response = new SuccessResponse<>();
+            try {
+                var payload = articleService.updatePost(id,articleRequest);
+                if (payload !=null){
+                    response.setMessage("Update article successfully");
+                    response.setStatus("201");
+                    response.setPayload(payload);
+                }else {
+                    response.setMessage("Can not find article with id "+id);
+                    response.setStatus("500");
+                }
+                return response;
+            }catch (Exception e){
+                    response.setMessage(e.getMessage());
+                    response.setStatus("500");
+                    return response;
+            }
     }
 
     @GetMapping("/{id}")
@@ -49,7 +65,7 @@ public class ArticleController {
         try {
             var payload = articleService.findArticleById(id);
             if (id!=null){
-                res.setMessage("successfully fetched article id: "+ id);
+                res.setMessage("successfully fetch article");
                 res.setStatus("200");
                 res.setPayload(payload);
             }
@@ -68,7 +84,7 @@ public class ArticleController {
         try{
             var payload = articleService.fetchAllArticles(page -1, size);
             if (page>0 || size>0){
-                res.setMessage("successfully fetched all articles");
+                res.setMessage("successfully fetch all articles");
                 res.setStatus("200");
                 res.setPayload(payload.getContent());
                 if(page <= payload.getTotalPages()){
@@ -97,10 +113,11 @@ public class ArticleController {
         try{
             if(id!=null){
                 articleService.delete(id);
-                res.setMessage("deleted article id: " + id );
+                res.setMessage("deleted article with id " + id +" successfully");
                 res.setStatus("200");
             }
         }catch (Exception e){
+//            res = new SuccessResponse("cannot find article to delete","500");
             res.setMessage(e.getMessage());
             res.setStatus("500");
         }
@@ -108,43 +125,39 @@ public class ArticleController {
     }
 
     @PostMapping("/{id}/comments")
-    public CommentDto addComments(@PathVariable UUID id, @RequestBody CommentRequest commentRequest){
-        return articleService.addComments(id, commentRequest);
+    public SuccessResponse<?> addComments(@PathVariable UUID id, @RequestBody CommentRequest commentRequest){
+        var response = new SuccessResponse<>();
+        try {
+            var payload = articleService.addComments(id, commentRequest);
+            response.setMessage("successfully add comments");
+            response.setStatus("201");
+            response.setPayload(payload);
+            return response;
+        }catch (Exception e){
+            response.setMessage(e.getMessage());
+            response.setStatus("500");
+            return response;
+        }
+
     }
 
     @GetMapping("/{id}/comments")
     public SuccessResponse<?> getCommentByArticleId(@PathVariable UUID id){
-        var payload = articleService.fetchCommentByArticleId(id);
-        var res = new SuccessResponse<>();
-            res.setMessage("successfully fetched comments article id: " + id);
-            res.setStatus("200");
-            res.setPayload(payload);
-            return res;
+        var response = new SuccessResponse<>();
+        try{
+            var payload = articleService.fetchCommentByArticleId(id);
+            response.setMessage("successfully fetch comments");
+            response.setStatus("201");
+            response.setPayload(payload);
+            return response;
+        }catch (Exception e){
+            response.setMessage(e.getMessage());
+            response.setStatus("500");
+            return response;
+        }
+
     }
 
-    @GetMapping("/published")
-    public PageResponse<?> fetchArticlesByIsPublished(
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "5") Integer size
-    ){
-        var res = new PageResponse<>();
-        try {
-            var payload = articleService.findAllByIsPublished(page -1,size);
-            if(page>0 || size>0){
-                res.setMessage("successfully fetched all articles that is published");
-                res.setStatus("200");
-                res.setPayload(payload.getContent());
-                res.setPage(page);
-                res.setSize(size);
-                res.setTotalPages(payload.getTotalPages());
-                res.setTotalElements(payload.getTotalElements());
-            }
-        }catch (Exception e){
-            res.setMessage(e.getMessage());
-            res.setStatus("500");
-        }
-        return res;
-    }
 }
 
 
