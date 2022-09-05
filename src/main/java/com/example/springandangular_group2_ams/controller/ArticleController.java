@@ -1,6 +1,5 @@
 package com.example.springandangular_group2_ams.controller;
 
-import com.example.springandangular_group2_ams.model.dto.ArticleDto;
 import com.example.springandangular_group2_ams.model.dto.CommentDto;
 import com.example.springandangular_group2_ams.model.request.ArticleRequest;
 import com.example.springandangular_group2_ams.model.request.CommentRequest;
@@ -19,9 +18,10 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
+    //post new article
     @PostMapping
     public SuccessResponse<?> createPost(@RequestBody ArticleRequest articleRequest){
-
+        var response = new SuccessResponse<>();
         try {
             var payload = articleService.createPost(articleRequest);
             System.out.println(payload.toString());
@@ -31,18 +31,35 @@ public class ArticleController {
                     payload
             );
         }catch (Exception e){
-            var response = new SuccessResponse<>();
             response.setMessage("cannot find teacher with id "+articleRequest.getUserId());
             response.setStatus("500");
             return response;
         }
     }
 
+    //update article by id
     @PutMapping("/{id}")
-    public ArticleDto updatePost(@PathVariable UUID id, @RequestBody ArticleRequest articleRequest){
-        return articleService.updatePost(id,articleRequest);
+    public SuccessResponse<?> updatePost(@PathVariable UUID id, @RequestBody ArticleRequest articleRequest){
+        var response = new SuccessResponse<>();
+        try {
+            var payload = articleService.updatePost(id,articleRequest);
+            if (payload !=null){
+                response.setMessage("Update article successfully");
+                response.setStatus("201");
+                response.setPayload(payload);
+            }else {
+                response.setMessage("Can not find article with id "+id);
+                response.setStatus("500");
+            }
+            return response;
+        }catch (Exception e){
+            response.setMessage(e.getMessage());
+            response.setStatus("500");
+            return response;
+        }
     }
 
+    //fetch article by id
     @GetMapping("/{id}")
     public SuccessResponse<?> fetchArticleById(@PathVariable UUID id){
         var res = new SuccessResponse<>();
@@ -59,6 +76,8 @@ public class ArticleController {
         }
         return res;
     }
+
+    //fetch all articles
     @GetMapping
     public PageResponse<?> fetchAllArticle(
             @RequestParam(defaultValue = "1") Integer page,
@@ -91,6 +110,7 @@ public class ArticleController {
         return res;
     }
 
+    //delete article by id
     @DeleteMapping("/{id}")
     public SuccessResponse<?> delete(@PathVariable UUID id){
         var res = new SuccessResponse<>();
@@ -107,19 +127,38 @@ public class ArticleController {
         return res;
     }
 
+    //post comment on article by id
     @PostMapping("/{id}/comments")
-    public CommentDto addComments(@PathVariable UUID id, @RequestBody CommentRequest commentRequest){
-        return articleService.addComments(id, commentRequest);
+    public SuccessResponse<?> addComments(@PathVariable UUID id, @RequestBody CommentRequest commentRequest){
+        var response = new SuccessResponse<>();
+        try {
+            var payload = articleService.addComments(id, commentRequest);
+            response.setMessage("successfully add comments");
+            response.setStatus("201");
+            response.setPayload(payload);
+            return response;
+        }catch (Exception e){
+            response.setMessage(e.getMessage());
+            response.setStatus("500");
+            return response;
+        }
     }
 
+    //get article comments by id
     @GetMapping("/{id}/comments")
     public SuccessResponse<?> getCommentByArticleId(@PathVariable UUID id){
-        var payload = articleService.fetchCommentByArticleId(id);
-        var res = new SuccessResponse<>();
-            res.setMessage("successfully fetched comments article id: " + id);
-            res.setStatus("200");
-            res.setPayload(payload);
-            return res;
+        var response = new SuccessResponse<>();
+        try{
+            var payload = articleService.fetchCommentByArticleId(id);
+            response.setMessage("successfully fetched comments article id: " + id);
+            response.setStatus("201");
+            response.setPayload(payload);
+            return response;
+        }catch (Exception e){
+            response.setMessage(e.getMessage());
+            response.setStatus("500");
+            return response;
+        }
     }
 
     //fetch article by is published
