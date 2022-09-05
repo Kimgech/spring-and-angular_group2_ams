@@ -46,7 +46,6 @@ public class ArticleServiceImp implements ArticleService{
                 }
                 System.out.println(categories);
                 articleEntity.setUser(user.get());
-
                 articleEntity.setCategoryList(categories);
                 articleEntity.setCommentList(cmt);
                 System.out.println(articleEntity);
@@ -59,7 +58,7 @@ public class ArticleServiceImp implements ArticleService{
 
     @Override
     public ArticleDto updatePost(UUID id, ArticleRequest articleRequest) {
-        var articleId = articleRepository.findById(id);
+        var article = articleRepository.findById(id);
         var user = appUserRepository.findById(articleRequest.getUserId());
         var categories = new ArrayList<Category>();
         var cmt = new ArrayList<Comment>();
@@ -69,14 +68,17 @@ public class ArticleServiceImp implements ArticleService{
                 categories.add(category.get(0));
             }
         }
-        if (articleId.isPresent() && user.isPresent()){
+        if (article.isPresent()){
             var articleEntity = articleRequest.toEntity(id);
             articleEntity.setUser(user.get());
             articleEntity.setCategoryList(categories);
             articleEntity.setCommentList(cmt);
-            return articleRepository.save(articleEntity).toDto();
+            if (user.get().getId() == article.get().getUser().getId()){
+                return articleRepository.save(articleEntity).toDto();
+            }
+            throw new NoSuchElementException("This article is not your");
         }
-        throw new NoSuchElementException("Article not found");
+        else  return  null;
     }
 
     @Override
