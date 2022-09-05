@@ -101,17 +101,26 @@ public class ArticleServiceImp implements ArticleService{
         throw new NoSuchElementException("article not found");
     }
 
+//    @Override
+//    public Page<ArticleDto> findAllByIsPublished(Integer page, Integer size) {
+//        var pageRequest = PageRequest.of(page,size);
+//        var result = articleRepository.findAllByIsPublished(pageRequest);
+//        return result.map(Article::toDto);
+//    }
+
     @Override
-    public ArticleDto findById(UUID articleId) {
+    public ArticleDto findArticleById(UUID articleId) {
         var article = articleRepository.findById(articleId);
-        if (article.isPresent()) {
-            return article.get().toDto();
-        }
-        throw new NoSuchElementException("article not found");
+//        if (article.isPresent()) {
+//            return article.get().toDto();
+//        }
+//        throw new NoSuchElementException("article not found");
+
+        return article.get().toDto();
     }
 
     @Override
-    public Page<ArticleDto> fetch(Integer page, Integer size) {
+    public Page<ArticleDto> fetchAllArticles(Integer page, Integer size) {
         var pageRequest = PageRequest.of(page,size);
         var result = articleRepository.findAll(pageRequest);
         return result.map(Article::toDto);

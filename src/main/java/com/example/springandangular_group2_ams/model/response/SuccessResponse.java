@@ -15,4 +15,9 @@ public class SuccessResponse<T> {
     private String status;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T payload;
+
+    public SuccessResponse(String message, String status) {
+        this.message = message;
+        this.status = status;
+    }
 }

@@ -10,8 +10,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @Entity(name = "Article")
 @Table(name = "articles")
@@ -41,7 +41,6 @@ public class Article {
 
     @OneToMany(mappedBy = "article")
     private List<Comment> commentList;
-
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "article_categories",

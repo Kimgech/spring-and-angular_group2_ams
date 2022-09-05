@@ -11,9 +11,9 @@ import java.util.UUID;
 
 public interface ArticleService {
 
-    ArticleDto findById(UUID articleId);
+    ArticleDto findArticleById(UUID articleId);
 
-    Page<ArticleDto> fetch(Integer page, Integer size);
+    Page<ArticleDto> fetchAllArticles(Integer page, Integer size);
 
     Boolean delete(UUID articleId);
 

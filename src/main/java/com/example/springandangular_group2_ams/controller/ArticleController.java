@@ -44,48 +44,67 @@ public class ArticleController {
     }
 
     @GetMapping("/{id}")
-    public SuccessResponse<Object> fetchById(@PathVariable UUID id) {
-        var payload = articleService.findById(id);
+    public SuccessResponse<?> fetchArticleById(@PathVariable UUID id){
         var res = new SuccessResponse<>();
         try {
-            if (payload != null) {
-                res.setMessage("Successfully fetch article");
+            var payload = articleService.findArticleById(id);
+            if (id!=null){
+                res.setMessage("successfully fetch article");
                 res.setStatus("200");
                 res.setPayload(payload);
-            } else {
-                res.setMessage("Failed");
-                res.setStatus("400");
             }
-        } catch (Exception e) {
-            res.setMessage("Failed to fetch article");
-            res.setStatus("200");
+        }catch (Exception e){
+            res.setMessage(e.getMessage());
+            res.setStatus("206");
         }
         return res;
-
     }
     @GetMapping
     public PageResponse<?> fetchAllArticle(
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "5") Integer size
     ){
-        var payload = articleService.fetch(page -1, size);
         var res = new PageResponse<>();
-        res.setMessage("Successfully fetch all articles");
-        res.setStatus("200");
-        res.setPayload(payload.getContent());
-        res.setPage(page);
-        res.setSize(size);
-        res.setTotalPages(payload.getTotalPages());
-        res.setTotalElements(payload.getTotalElements());
+        try{
+            var payload = articleService.fetchAllArticles(page -1, size);
+            if (page>0 || size>0){
+                res.setMessage("successfully fetch all articles");
+                res.setStatus("200");
+                res.setPayload(payload.getContent());
+                if(page <= payload.getTotalPages()){
+                    if (page == payload.getTotalPages()){
+                        res.setSize(((int) payload.getTotalElements()-(size*(page -1))));
+                    }else {
+                        res.setSize(payload.getSize());
+                    }
+                }else{
+                    res.setSize(0);
+                }
+                res.setPage(page);
+                res.setTotalPages(payload.getTotalPages());
+                res.setTotalElements(payload.getTotalElements());
+            }
+        }catch (Exception e){
+            res.setMessage(e.getMessage());
+            res.setStatus("500");
+        }
         return res;
     }
 
     @DeleteMapping("/{id}")
     public SuccessResponse<?> delete(@PathVariable UUID id){
-        articleService.delete(id);
         var res = new SuccessResponse<>();
-        res.setMessage("deleted article successfully");
-        res.setStatus("200");
+        try{
+            if(id!=null){
+                articleService.delete(id);
+                res.setMessage("deleted article with id " + id +" successfully");
+                res.setStatus("200");
+            }
+        }catch (Exception e){
+//            res = new SuccessResponse("cannot find article to delete","500");
+            res.setMessage(e.getMessage());
+            res.setStatus("500");
+        }
         return res;
     }
 
@@ -105,6 +124,30 @@ public class ArticleController {
     }
 
 }
+
+//    @GetMapping("/published")
+//    public PageResponse<?> fetchArticlesByIsPublished(
+//            @RequestParam(defaultValue = "1") Integer page,
+//            @RequestParam(defaultValue = "5") Integer size
+//    ){
+//        var res = new PageResponse<>();
+//        try {
+//            var payload = articleService.findAllByIsPublished(page -1,size);
+//            if(page>0 || size>0){
+//                res.setMessage("successfully fetch all articles that is published");
+//                res.setStatus("200");
+//                res.setPayload(payload.getContent());
+//                res.setPage(page);
+//                res.setSize(size);
+//                res.setTotalPages(payload.getTotalPages());
+//                res.setTotalElements(payload.getTotalElements());
+//            }
+//        }catch (Exception e){
+//            res.setMessage("ca");
+//        }
+//        return res;
+//    }
+
 
 
 
