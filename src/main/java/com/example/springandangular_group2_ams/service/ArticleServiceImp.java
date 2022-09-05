@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -101,12 +102,13 @@ public class ArticleServiceImp implements ArticleService{
         throw new NoSuchElementException("article not found");
     }
 
-//    @Override
-//    public Page<ArticleDto> findAllByIsPublished(Integer page, Integer size) {
-//        var pageRequest = PageRequest.of(page,size);
-//        var result = articleRepository.findAllByIsPublished(pageRequest);
-//        return result.map(Article::toDto);
-//    }
+    @Override
+    public Page<ArticleDto> findAllByIsPublished(Integer page, Integer size) {
+        var pageRequest = PageRequest.of(page,size);
+        var result = articleRepository.findAllByIsPublished(true,pageRequest);
+//       result=result.stream().filter(Article::getIsPublished);
+        return result.map(Article::toDto);
+    }
 
     @Override
     public ArticleDto findArticleById(UUID articleId) {
@@ -114,8 +116,9 @@ public class ArticleServiceImp implements ArticleService{
 //        if (article.isPresent()) {
 //            return article.get().toDto();
 //        }
-//        throw new NoSuchElementException("article not found");
-
+//        else {
+//            return null;
+//        }
         return article.get().toDto();
     }
 

@@ -24,4 +24,6 @@ public interface ArticleService {
     List<CommentDto> fetchCommentByArticleId(UUID articleId);
 
     CommentDto addComments(UUID articleId, CommentRequest commentRequest);
+
+    Page<ArticleDto> findAllByIsPublished(Integer page, Integer size);
 }

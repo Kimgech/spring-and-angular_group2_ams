@@ -9,9 +9,10 @@ import java.util.UUID;
 
 public interface ArticleRepository extends JpaRepository<Article, UUID> {
 
-//    Page<Article> findAllByIsPublished(Pageable pageable);
+    Page<Article> findAllByIsPublished(Boolean isPublished, Pageable pageable);
+
+//    Page<Article> findArticlesByIsPublished(Boolean isPublished, Pageable pageable);
 
 //    Page<Article> getArticlesByIsPublished(Pageable pageable);
-
 
 }
