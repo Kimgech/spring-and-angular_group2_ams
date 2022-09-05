@@ -1,13 +1,10 @@
 package com.example.springandangular_group2_ams.controller;
 
-import com.example.springandangular_group2_ams.model.dto.CategoryDto;
 import com.example.springandangular_group2_ams.model.request.CategoryRequest;
-import com.example.springandangular_group2_ams.model.response.ErrorResponse;
 import com.example.springandangular_group2_ams.model.response.PageResponse;
 import com.example.springandangular_group2_ams.model.response.SuccessResponse;
 import com.example.springandangular_group2_ams.service.CategoryService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -153,6 +150,8 @@ public class CategoryController {
                         res.setSize(payload.getSize());
                     }
                 }else{
+                    res.setMessage("successfully fetch categories");
+                    res.setStatus("204");
                     res.setSize(0);
                 }
                 res.setPage(page);

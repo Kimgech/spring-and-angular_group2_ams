@@ -37,13 +37,7 @@ public class ArticleServiceImp implements ArticleService{
 
         if(user.isPresent()){
             System.out.println(user);
-            if (Objects.equals(user.get().getRole(), "TEACHER")){
-                for (String cat: articleRequest.getCategories()) {
-                    var category  = categoryRepository.findByName(cat);
-                    if (!category.isEmpty()){
-                        categories.add(category.get(0));
-                    }
-                }
+            if (user.get().getRole().name().equals("TEACHER")){
                 System.out.println(categories);
                 articleEntity.setUser(user.get());
                 articleEntity.setCategoryList(categories);

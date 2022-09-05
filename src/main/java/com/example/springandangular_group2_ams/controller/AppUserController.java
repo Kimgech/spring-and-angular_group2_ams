@@ -7,7 +7,6 @@ import com.example.springandangular_group2_ams.service.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.UUID;
 
 @RestController
@@ -29,7 +28,6 @@ public class AppUserController {
             res.setMessage(e.getMessage());
             res.setStatus("206");
         }
-
         return res;
     }
 
@@ -46,7 +44,6 @@ public class AppUserController {
             res.setStatus("500");
         }
         return res;
-
     }
 
     @DeleteMapping("/{id}")

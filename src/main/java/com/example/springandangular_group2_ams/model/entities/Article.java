@@ -2,7 +2,6 @@ package com.example.springandangular_group2_ams.model.entities;
 
 import com.example.springandangular_group2_ams.model.dto.ArticleDto;
 import lombok.*;
-import com.example.springandangular_group2_ams.model.dto.ArticleDto;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -34,7 +33,7 @@ public class Article {
     private String description;
 
     @Column(name = "is_published")
-    private Boolean isPublished;
+    private Boolean isPublished = false;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id",referencedColumnName = "id")

@@ -1,6 +1,5 @@
 package com.example.springandangular_group2_ams.controller;
 
-import com.example.springandangular_group2_ams.model.dto.CommentDto;
 import com.example.springandangular_group2_ams.model.request.ArticleRequest;
 import com.example.springandangular_group2_ams.model.request.CommentRequest;
 import com.example.springandangular_group2_ams.model.response.PageResponse;

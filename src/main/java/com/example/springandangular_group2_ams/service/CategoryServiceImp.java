@@ -7,12 +7,7 @@ import com.example.springandangular_group2_ams.repository.CategoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -27,10 +22,8 @@ public class CategoryServiceImp implements CategoryService{
     }
     @Override
     public CategoryDto fetchById(Long id){
-
         var response = categoryRepository.findById(id);
         return response.get().toDto();
-
     }
 
     @Override

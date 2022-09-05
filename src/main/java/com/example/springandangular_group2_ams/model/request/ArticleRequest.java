@@ -1,14 +1,12 @@
 package com.example.springandangular_group2_ams.model.request;
 
 import com.example.springandangular_group2_ams.model.entities.Article;
-import com.example.springandangular_group2_ams.model.entities.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
