@@ -101,7 +101,6 @@ public class ArticleController {
                 res.setStatus("200");
             }
         }catch (Exception e){
-//            res = new SuccessResponse("cannot find article to delete","500");
             res.setMessage(e.getMessage());
             res.setStatus("500");
         }
@@ -123,17 +122,6 @@ public class ArticleController {
             return res;
     }
 
-//    @GetMapping("/published")
-//    public PageResponse<> fetchArticlesByIsPublished(
-//            @RequestParam(defaultValue = "1") Integer page,
-//            @RequestParam(defaultValue = "5") Integer size
-//    ){
-//        var res = new PageResponse<>();
-//        var payload = articleService.fetchAllArticles(page, size);
-//        try {
-//            if()
-//        }
-//    }
     @GetMapping("/published")
     public PageResponse<?> fetchArticlesByIsPublished(
             @RequestParam(defaultValue = "1") Integer page,
@@ -157,7 +145,6 @@ public class ArticleController {
         }
         return res;
     }
-
 }
 
 

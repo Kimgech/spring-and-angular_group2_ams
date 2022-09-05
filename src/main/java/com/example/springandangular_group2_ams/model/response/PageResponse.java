@@ -22,9 +22,4 @@ public class PageResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long totalElements;
 
-
-//    public PageResponse(String message, String status) {
-//        this.message = message;
-//        this.status = status;
-//    }
 }

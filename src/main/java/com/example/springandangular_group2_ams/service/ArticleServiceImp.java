@@ -69,7 +69,6 @@ public class ArticleServiceImp implements ArticleService{
                 categories.add(category.get(0));
             }
         }
-
         if (articleId.isPresent() && user.isPresent()){
             var articleEntity = articleRequest.toEntity(id);
             articleEntity.setUser(user.get());
@@ -106,19 +105,12 @@ public class ArticleServiceImp implements ArticleService{
     public Page<ArticleDto> findAllByIsPublished(Integer page, Integer size) {
         var pageRequest = PageRequest.of(page,size);
         var result = articleRepository.findAllByIsPublished(true,pageRequest);
-//       result=result.stream().filter(Article::getIsPublished);
         return result.map(Article::toDto);
     }
 
     @Override
     public ArticleDto findArticleById(UUID articleId) {
         var article = articleRepository.findById(articleId);
-//        if (article.isPresent()) {
-//            return article.get().toDto();
-//        }
-//        else {
-//            return null;
-//        }
         return article.get().toDto();
     }
 
@@ -138,8 +130,6 @@ public class ArticleServiceImp implements ArticleService{
             return true;
         }
         throw new NoSuchElementException("article not found");
-//        articleRepository.deleteById(articleId);
-//        return true;
     }
 }
 
