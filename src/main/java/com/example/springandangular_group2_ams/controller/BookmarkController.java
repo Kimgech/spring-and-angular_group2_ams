@@ -18,8 +18,6 @@ public class BookmarkController {
 
     private final BookmarkService bookmarkService;
 
-
-
     //add bookmark
     @PostMapping("/bookmarks/user/{id}")
     public ArtcileResponse<ArticleDto> bookmarks(@PathVariable("id") UUID id, @RequestBody BookmarkRequest bookmarkRequest) {
