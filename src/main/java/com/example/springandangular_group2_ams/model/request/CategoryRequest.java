@@ -15,4 +15,9 @@ public class CategoryRequest {
         var category = new Category(null, this.name);
         return category;
     }
+    public Category toEntity(Long id){
+        var category = new Category(id, this.name);
+        return category;
+    }
+
 }

@@ -1,13 +1,13 @@
 package com.example.springandangular_group2_ams.controller;
 
 import com.example.springandangular_group2_ams.model.dto.ArticleDto;
+import com.example.springandangular_group2_ams.model.dto.CommentDto;
 import com.example.springandangular_group2_ams.model.request.ArticleRequest;
-import com.example.springandangular_group2_ams.model.response.ErrorResponse;
+import com.example.springandangular_group2_ams.model.request.CommentRequest;
 import com.example.springandangular_group2_ams.model.response.PageResponse;
 import com.example.springandangular_group2_ams.model.response.SuccessResponse;
 import com.example.springandangular_group2_ams.service.ArticleService;
 import lombok.AllArgsConstructor;
-//import lombok.var;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -20,8 +20,22 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @PostMapping
-    public ArticleDto createPost(@RequestBody ArticleRequest articleRequest){
-        return articleService.createPost(articleRequest);
+    public SuccessResponse<?> createPost(@RequestBody ArticleRequest articleRequest){
+
+        try {
+            var payload = articleService.createPost(articleRequest);
+            System.out.println(payload.toString());
+            return new SuccessResponse<>(
+                    "Insert Article successfully",
+                    "201",
+                    payload
+            );
+        }catch (Exception e){
+            var response = new SuccessResponse<>();
+            response.setMessage("Can not find teacher with id "+articleRequest.getUserId());
+            response.setStatus("500");
+            return response;
+        }
     }
 
     @PutMapping("/{id}")
@@ -30,25 +44,24 @@ public class ArticleController {
     }
 
     @GetMapping("/{id}")
-    public SuccessResponse<Object> fetchById(@PathVariable UUID id){
+    public SuccessResponse<Object> fetchById(@PathVariable UUID id) {
         var payload = articleService.findById(id);
-//        if (payload!=null){
-//            var res = new SuccessResponse<>();
-//            res.setMessage("Successfully fetch article");
-//            res.setStatus("200");
-//            res.setPayload(payload);
-//            return res;
-//        } else {
-//            var res = new SuccessResponse<>();
-//            res.setMessage("Failed");
-//            res.setStatus("400");
-//            return res;
-//        }
         var res = new SuccessResponse<>();
-            res.setMessage("successfully fetch article");
+        try {
+            if (payload != null) {
+                res.setMessage("Successfully fetch article");
+                res.setStatus("200");
+                res.setPayload(payload);
+            } else {
+                res.setMessage("Failed");
+                res.setStatus("400");
+            }
+        } catch (Exception e) {
+            res.setMessage("Failed to fetch article");
             res.setStatus("200");
-            res.setPayload(payload);
-            return res;
+        }
+        return res;
+
     }
     @GetMapping
     public PageResponse<?> fetchAllArticle(
@@ -70,23 +83,27 @@ public class ArticleController {
     @DeleteMapping("/{id}")
     public SuccessResponse<?> delete(@PathVariable UUID id){
         articleService.delete(id);
-//        var payload = articleService.findById(id);
         var res = new SuccessResponse<>();
         res.setMessage("deleted article successfully");
         res.setStatus("200");
-//        res.setPayload(articleService.findById(id));
         return res;
-//        var res = new SuccessResponse<>();
-//        res.setMessage("deleted article successfully");
-//        res.setStatus("200");
-//        res.setPayload(payload);
-//        return res;
-//        return new SuccessResponse<>(
-//                "deleted article successfully",
-//                "200",
-//                articleService.findById(id)
-//articleService.findById(id);
     }
+
+    @PostMapping("/{id}/comments")
+    public CommentDto addComments(@PathVariable UUID id, @RequestBody CommentRequest commentRequest){
+        return articleService.addComments(id, commentRequest);
+    }
+
+    @GetMapping("/{id}/comments")
+    public SuccessResponse<?> getCommentByArticleId(@PathVariable UUID id){
+        var payload = articleService.fetchCommentByArticleId(id);
+        var res = new SuccessResponse<>();
+            res.setMessage("successfully fetch comments");
+            res.setStatus("200");
+            res.setPayload(payload);
+            return res;
+    }
+
 }
 
 

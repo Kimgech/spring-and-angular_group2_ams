@@ -1,20 +1,17 @@
 package com.example.springandangular_group2_ams.model.entities;
 
 import com.example.springandangular_group2_ams.model.dto.ArticleDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import com.example.springandangular_group2_ams.model.dto.AppUserDto;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity(name = "Article")
 @Table(name = "articles")
@@ -35,7 +32,7 @@ public class Article {
     private String description;
 
     @Column(name = "is_published")
-    private Boolean isPublished;
+    private Boolean isPublished = false;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id",referencedColumnName = "id")
@@ -44,7 +41,6 @@ public class Article {
 
     @OneToMany(mappedBy = "article")
     private List<Comment> commentList;
-
 
 
     @ManyToMany(cascade = CascadeType.ALL)

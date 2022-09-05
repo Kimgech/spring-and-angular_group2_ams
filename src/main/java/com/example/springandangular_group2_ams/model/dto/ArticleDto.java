@@ -41,4 +41,5 @@ public class ArticleDto implements Serializable {
         this.category = categoryList;
         this.user = user;
     }
+
 }

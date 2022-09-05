@@ -3,6 +3,9 @@ package com.example.springandangular_group2_ams.model.entities;
 import com.example.springandangular_group2_ams.model.dto.AppUserDto;
 import com.example.springandangular_group2_ams.model.dto.AppUserDto;
 import com.example.springandangular_group2_ams.model.dto.ArticleDto;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity(name = "AppUser")
 @Table(name = "app_users")
 public class AppUser {
