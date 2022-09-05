@@ -17,7 +17,7 @@ public interface ArticleService {
 
     ArticleDto updatePost(UUID id, ArticleRequest articleRequest);
 
-//    Page<ArticleDto> getArticlesByIsPublished(Integer page, Integer size);
+//    Page<ArticleDto> findAllByIsPublished(Integer page, Integer size);
 
 //    Page<ArticleDto>
 }

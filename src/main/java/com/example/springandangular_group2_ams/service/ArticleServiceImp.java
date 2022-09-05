@@ -33,12 +33,9 @@ public class ArticleServiceImp implements ArticleService{
     }
 
 //    @Override
-//    public Page<ArticleDto> getArticlesByIsPublished(Integer page, Integer size) {
+//    public Page<ArticleDto> findAllByIsPublished(Integer page, Integer size) {
 //        var pageRequest = PageRequest.of(page,size);
-//
-//        var result = articleRepository.getArticlesByIsPublished(pageRequest);
-//
-//
+//        var result = articleRepository.findAllByIsPublished(pageRequest);
 //        return result.map(Article::toDto);
 //    }
 

@@ -99,7 +99,7 @@ public class ArticleController {
 //    ){
 //        var res = new PageResponse<>();
 //        try {
-//            var payload = articleService.getArticlesByIsPublished(page -1,size);
+//            var payload = articleService.findAllByIsPublished(page -1,size);
 //            if(page>0 || size>0){
 //                res.setMessage("successfully fetch all articles that is published");
 //                res.setStatus("200");
