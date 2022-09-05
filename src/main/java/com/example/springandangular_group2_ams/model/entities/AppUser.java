@@ -1,11 +1,10 @@
 package com.example.springandangular_group2_ams.model.entities;
 
 import com.example.springandangular_group2_ams.model.dto.AppUserDto;
-import com.example.springandangular_group2_ams.model.dto.AppUserDto;
-import com.example.springandangular_group2_ams.model.dto.ArticleDto;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -13,11 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 @Entity(name = "AppUser")
 @Table(name = "app_users")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class AppUser {
 
     @Id
@@ -27,14 +27,15 @@ public class AppUser {
             strategy = "org.hibernate.id.UUIDGenerator"
     )    private UUID id;
 
-    @Column(name = "name", nullable = false)
+    @Column(unique = true, name = "name", nullable = false)
     private String name;
 
     @Column(name = "role", nullable = false)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "user")
-    private List<Article> articles;
+    private List<Article> articles = new ArrayList<>();
 
 
     @ManyToMany
@@ -44,7 +45,15 @@ public class AppUser {
     )
     private List<Article> bookmark;
 
-    public AppUserDto toDto(){
-        return new AppUserDto(this.id,this.name,this.role);
+    public AppUser(UUID id, String name, Role role) {
+        this.id = id;
+        this.name = name;
+        this.role = role;
     }
+
+
+    public AppUserDto toDto(){
+        return new AppUserDto(this.id, this.name, this.role);
+    }
+
 }

@@ -14,11 +14,11 @@ public class CategoryRequest {
 
     public Category toEntity(){
         var category = new Category();
-        return category;
-    }
-    public Category toEntity(Long id){
-        var category = new Category(id, this.name);
+        category.setName(this.name);
         return category;
     }
 
+    public Category toEntity(Long id){
+        return new Category(id, this.name);
+    }
 }

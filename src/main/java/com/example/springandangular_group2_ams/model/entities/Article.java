@@ -2,9 +2,11 @@ package com.example.springandangular_group2_ams.model.entities;
 
 import com.example.springandangular_group2_ams.model.dto.ArticleDto;
 import lombok.*;
+import com.example.springandangular_group2_ams.model.dto.ArticleDto;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -32,7 +34,7 @@ public class Article {
     private String description;
 
     @Column(name = "is_published")
-    private Boolean isPublished = false;
+    private Boolean isPublished;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id",referencedColumnName = "id")
@@ -40,7 +42,8 @@ public class Article {
 
 
     @OneToMany(mappedBy = "article")
-    private List<Comment> commentList;
+    private List<Comment> commentList = new ArrayList<>();
+
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "article_categories",
@@ -74,6 +77,17 @@ public class Article {
 //                        .map(Category::toDto)
 //                        .collect(Collectors.toList()),
 //                this.user.toDto()
+//        );
+//    }
+//    public ArticleDto toDto(){
+//        return new ArticleDto(
+//                this.id,
+//                this.title,
+//                this.description,
+//                this.isPublished,
+//                this.articleCategory.stream()
+//                        .map(Category::toDto)
+//                        .collect(Collectors.toList())
 //        );
 //    }
 }
