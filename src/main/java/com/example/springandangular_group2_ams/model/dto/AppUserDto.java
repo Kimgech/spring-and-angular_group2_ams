@@ -2,6 +2,7 @@ package com.example.springandangular_group2_ams.model.dto;
 
 import com.example.springandangular_group2_ams.model.entities.Article;
 import com.example.springandangular_group2_ams.model.entities.Role;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,9 @@ public class AppUserDto implements Serializable{
         private UUID id;
         private String name;
         private Role role;
-//        private List<Article> bookmark;
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private List<Article> bookmark;
 
         public AppUserDto(UUID id, String name, Role role) {
                 this.id = id;
