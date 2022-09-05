@@ -96,8 +96,9 @@ public class AppUserController {
                 if(page <= payload.getTotalPages()){
                     if (page == payload.getTotalPages()) {
                         res.setSize(((int) payload.getTotalElements() - (size * (page - 1))));
+                    }else {
+                        res.setSize(payload.getSize());
                     }
-                    res.setSize(payload.getSize());
                 }else{
                     res.setSize(0);
                 }
