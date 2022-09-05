@@ -16,21 +16,42 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
 
     private final CategoryService categoryService;
-    @GetMapping()
-    public PageResponse<?> getAllCategories(
-            @RequestParam (defaultValue = "1")Integer page,
-            @RequestParam (defaultValue = "5")Integer size
-    ){
-        var payload = categoryService.fetchAll(page-1, size);
+    @GetMapping
+    public PageResponse<?> fetchAll(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "5") Integer size
+    ) {
 
         var res = new PageResponse<>();
-        res.setMessage("successfully fetched categories");
-        res.setStatus("200");
-        res.setPayload(payload.getContent());
-        res.setPage(payload.getNumber()+1);
-        res.setSize(payload.getSize());
-        res.setTotalPages(payload.getTotalPages());
-        res.setTotalElements(payload.getTotalElements());
+        try{
+            // check size and page
+            if(size > 0 || page > 0){
+                var payload = categoryService.fetchAll(page - 1, size);
+                res.setMessage("successfully fetched categories");
+                res.setStatus("200");
+                res.setPayload(payload.getContent());
+                // check size
+                if(page <= payload.getTotalPages()){
+                    if (page == payload.getTotalPages()) {
+                        res.setSize(((int) payload.getTotalElements() - (size * (page - 1))));
+                    }else {
+                        res.setSize(payload.getSize());
+                    }
+                }else{
+                    res.setSize(size - payload.getSize());
+                }
+                res.setPage(page);
+                res.setTotalPages(payload.getTotalPages());
+                res.setTotalElements(payload.getTotalElements());
+            }else {
+                res.setMessage("java.lang.IllegalStateException: page cannot be smaller than 1");
+                res.setStatus("500");
+            }
+        }catch (Exception e){
+            res.setMessage(e.getMessage());
+            res.setStatus("500");
+        }
+
         return res;
     }
 
@@ -116,16 +137,36 @@ public class CategoryController {
             @RequestParam(defaultValue = "5") Integer size
     ){
 
-        var payload = categoryService.searchByName(name,page-1, size);
+        var res = new PageResponse<>();
+        try{
+            // check size and page
+            if(size > 0 || page > 0){
+                var payload = categoryService.searchByName(name,page - 1, size);
+                // check size
+                if(page <= payload.getTotalPages()){
+                    res.setMessage("successfully fetched categories");
+                    res.setStatus("200");
+                    res.setPayload(payload.getContent());
+                    if (page == payload.getTotalPages()) {
+                        res.setSize(((int) payload.getTotalElements() - (size * (page - 1))));
+                    }else {
+                        res.setSize(payload.getSize());
+                    }
+                }else{
+                    res.setSize(0);
+                }
+                res.setPage(page);
+                res.setTotalPages(payload.getTotalPages());
+                res.setTotalElements(payload.getTotalElements());
+            }else {
+                res.setMessage("java.lang.IllegalStateException: page cannot be smaller than 1");
+                res.setStatus("500");
+            }
+        }catch (Exception e){
+            res.setMessage(e.getMessage());
+            res.setStatus("500");
+        }
 
-        var result = new PageResponse<>();
-        result.setMessage("successfully fetched categories");
-        result.setStatus("200");
-        result.setPayload(payload.getContent());
-        result.setPage(page);
-        result.setSize(size);
-        result.setTotalPages(payload.getTotalPages());
-        result.setTotalElements(payload.getTotalElements());
-        return result;
+        return res;
     }
 }
