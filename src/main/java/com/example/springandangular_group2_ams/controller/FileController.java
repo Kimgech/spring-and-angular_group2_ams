@@ -21,27 +21,14 @@ public class FileController {
 
     private final FileService fileService;
 
+
+    //upload multi files
     @JsonBackReference
     @PostMapping(value = "/files",consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
     @Operation(summary = "Upload multi Files")
     public FileResponse<?> savaFiles( @RequestPart(value = "files",required = false)  MultipartFile[] files)   {
-        var res = new FileResponse<>();
-        try{
-            String reponse =null;
 
-                for (int i = 0; i < files.length; i++) {
-                    reponse  +=  "កhttp://localhost:8080/api/v1/files/"+fileService.saveFile(files[i]);
-                    res.setPayload( reponse.split("nullក"));
-                    res.setStatus("201");
-                    res.setMessage("successfully uploaded file");
-                }
-            return res;
-
-        }catch (Exception exception){
-
-            return null;
-        }
-
+        return fileService.savaFiles(files);
 
     }
 

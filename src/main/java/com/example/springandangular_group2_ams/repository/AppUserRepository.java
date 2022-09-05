@@ -12,11 +12,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, UUID> {
 
 
 
-    @Modifying
-    @Query(value ="insert into user_bookmarked_articles (app_user_id,bookmarked_article_id) " +
-            "values (:teacherId,:articleId ) ", nativeQuery = true)
-    @Transactional
-    void bookmark( UUID teacherId, UUID articleId);
+
 
 
 
