@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Setter
 @Getter
 @NoArgsConstructor
+
 @Entity(name = "Article")
 @Table(name = "articles")
 public class Article {
@@ -34,7 +35,7 @@ public class Article {
     private String description;
 
     @Column(name = "is_published")
-    private Boolean isPublished;
+    private Boolean isPublished ;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id",referencedColumnName = "id")
