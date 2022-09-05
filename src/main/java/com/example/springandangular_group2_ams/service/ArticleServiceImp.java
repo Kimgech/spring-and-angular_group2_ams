@@ -45,6 +45,7 @@ public class ArticleServiceImp implements ArticleService{
                 }
                 System.out.println(categories);
                 articleEntity.setUser(user.get());
+
                 articleEntity.setCategoryList(categories);
                 articleEntity.setCommentList(cmt);
                 System.out.println(articleEntity);
