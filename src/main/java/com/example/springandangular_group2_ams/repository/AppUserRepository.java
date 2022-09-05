@@ -18,4 +18,9 @@ public interface AppUserRepository extends JpaRepository<AppUser, UUID> {
 
 
 
+
+
+
+
+
 }
