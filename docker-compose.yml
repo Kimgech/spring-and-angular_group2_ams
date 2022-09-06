@@ -1,5 +1,7 @@
 version: "3.8"
-
+networks:
+  phnompenh:
+    driver: bridge
 volumes:
   group2:
 
@@ -20,3 +22,20 @@ services:
       POSTGRES_DB: group2
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
+    networks:
+      - phnompenh
+  api:
+    build:
+      context: .
+      dockerfile: api.Dockerfile
+    container_name: group2-api
+    depends_on:
+      - group2-database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db.group2.com:5432/group2
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=password
+    ports:
+      - '8080:8080'
+    networks:
+      - phnompenh
