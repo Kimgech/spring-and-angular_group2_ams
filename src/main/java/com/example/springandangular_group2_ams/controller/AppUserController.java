@@ -66,7 +66,7 @@ public class AppUserController {
         var res = new SuccessResponse<>();
         try {
             var payload = appUserService.updateUser(id, appUserRequest);
-            res.setMessage("");
+            res.setMessage("updated user successfully");
             res.setStatus("201");
             res.setPayload(payload);
         } catch (Exception e) {

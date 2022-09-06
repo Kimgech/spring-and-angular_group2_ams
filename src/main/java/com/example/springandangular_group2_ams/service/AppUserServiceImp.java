@@ -55,8 +55,12 @@ public class AppUserServiceImp implements AppUserService {
 
     @Override
     public AppUserDto updateUser(UUID appUserId, AppUserRequest appUserRequest) {
-        var catEntity = appUserRequest.toEntities(appUserId);
-        var SaveUser = appUserRepository.save(catEntity);
-        return SaveUser.toDto();
+        var user = appUserRepository.findById(appUserId);
+        if (user.isPresent()){
+            var catEntity = appUserRequest.toEntities(appUserId);
+            var SaveUser = appUserRepository.save(catEntity);
+            return SaveUser.toDto();
+        }
+        throw new NoSuchElementException("User not found");
     }
 }

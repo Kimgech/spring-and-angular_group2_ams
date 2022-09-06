@@ -37,7 +37,6 @@ public class AppUser {
     @OneToMany(mappedBy = "user")
     private List<Article> articles = new ArrayList<>();
 
-
     @ManyToMany
     @JoinTable(name = "user_bookmarked_articles",
             joinColumns = @JoinColumn(name = "app_user_id"),
