@@ -27,5 +27,5 @@ public interface BookmarkService {
                                Integer size);
 
 
-
+ ArtcileResponse<ArticleDto> deleteBookmark(UUID id, UUID articleId);
 }

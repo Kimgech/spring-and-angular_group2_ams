@@ -61,6 +61,22 @@ public class BookmarkController {
 
 
 
+    @DeleteMapping ("/bookmarks/user/{id}")
+    @Operation(summary = "Delete BookmarkArticle  ")
+    public ArtcileResponse<ArticleDto> deleteBookmark(@PathVariable("id") UUID teacherId,
+                                         @RequestParam UUID articleId
+    ){
+
+
+        return bookmarkService.deleteBookmark( teacherId, articleId);
+
+
+    }
+
+
+
+
+
 
 
 
