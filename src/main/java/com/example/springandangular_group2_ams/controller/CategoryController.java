@@ -76,11 +76,11 @@ public class CategoryController {
         var result = new SuccessResponse<>();
         try{
             if (categoryRequest.getName().isEmpty()){
-                result.setMessage("Hello");
+                result.setMessage("cannot create category");
                 result.setStatus("500");
             }else{
                 var payload = categoryService.newCategory(categoryRequest);
-                result.setMessage("Created category successfully");
+                result.setMessage("created category successfully");
                 result.setStatus("200");
                 result.setPayload(payload);
             }

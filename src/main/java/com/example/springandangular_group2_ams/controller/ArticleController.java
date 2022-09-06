@@ -71,7 +71,7 @@ public class ArticleController {
             }
         }catch (Exception e){
             res.setMessage(e.getMessage());
-            res.setStatus("206");
+            res.setStatus("204");
         }
         return res;
     }

@@ -50,7 +50,6 @@ public class AppUser {
         this.role = role;
     }
 
-
     public AppUserDto toDto(){
         return new AppUserDto(this.id, this.name, this.role);
     }

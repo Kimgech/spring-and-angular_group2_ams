@@ -22,7 +22,6 @@ import java.util.UUID;
 @Service
 public class FileServiceImp implements FileService{
 
-
     private final Path root = Paths.get("src/main/resources/images/");
 
 
@@ -54,11 +53,6 @@ public class FileServiceImp implements FileService{
         }
 
     }
-
-
-
-
-
 
     //display/save file
     @Override
@@ -92,36 +86,23 @@ public class FileServiceImp implements FileService{
 
     }
 
-
-
-
-
-
     @Override
     public FileResponse<?> savaFiles(MultipartFile[] files) {
                 var res = new FileResponse<>();
         try{
             //append string
-            String reponse =null;
+            String response =null;
 
                 for (int i = 0; i < files.length; i++) {
-                    reponse  +=  "កhttp://localhost:8080/api/v1/files/"+saveFile(files[i]);
-                    res.setPayload( reponse.split("nullក"));
+                    response  +=  "កhttp://localhost:8080/api/v1/files/"+saveFile(files[i]);
+                    res.setPayload( response.split("nullក"));
                     res.setStatus("201");
                     res.setMessage("successfully uploaded file");
                 }
             return res;
-
         }catch (Exception exception){
-
             return null;
         }
     }
-
-
-
-
-
-
 
 }

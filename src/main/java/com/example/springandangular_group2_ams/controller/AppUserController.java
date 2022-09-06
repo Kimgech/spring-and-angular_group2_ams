@@ -21,12 +21,12 @@ public class AppUserController {
         var res = new SuccessResponse<>();
         try {
             var payload = appUserService.fetchById(id);
-            res.setMessage("teacher found");
+            res.setMessage("successfully fetch user id: "+ id);
             res.setStatus("200");
             res.setPayload(payload);
         } catch (Exception e) {
             res.setMessage(e.getMessage());
-            res.setStatus("206");
+            res.setStatus("204");
         }
         return res;
     }
@@ -36,7 +36,7 @@ public class AppUserController {
         var res = new SuccessResponse<>();
         try {
             var payload = appUserService.createUser(appUserRequest);
-            res.setMessage("created user");
+            res.setMessage("created new user successfully");
             res.setStatus("201");
             res.setPayload(payload);
         } catch (Exception e) {
@@ -51,9 +51,8 @@ public class AppUserController {
         var res = new SuccessResponse<>();
         try{
             var payload = appUserService.deleteUser(id);
-                res.setMessage("deleted article with id: " + id);
+                res.setMessage("successfully deleted user id: " + id );
                 res.setStatus("200");
-                res.setPayload(payload);
         }catch(Exception e){
                 res.setMessage(e.getMessage());
                 res.setStatus("500");
@@ -110,7 +109,6 @@ public class AppUserController {
             res.setMessage(e.getMessage());
             res.setStatus("500");
         }
-
         return res;
     }
 }

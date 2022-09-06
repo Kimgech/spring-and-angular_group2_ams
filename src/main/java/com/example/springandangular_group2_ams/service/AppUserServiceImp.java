@@ -22,9 +22,8 @@ public class AppUserServiceImp implements AppUserService {
     @Override
     public AppUserDto fetchById(UUID id) {
         var response = appUserRepository.findById(id);
-
         if (response.isPresent()) return response.get().toDto();
-        throw new NoSuchElementException("teacher not found: id =" + id);
+        throw new NoSuchElementException("not found user id: " + id);
     }
 
     @Override
@@ -49,9 +48,8 @@ public class AppUserServiceImp implements AppUserService {
             appUserRepository.delete(cat.get());
             return true;
         }
-        throw new NoSuchElementException("Not found id :" + appUserId );
+        throw new NoSuchElementException("not found user id: " + appUserId );
     }
-
 
     @Override
     public AppUserDto updateUser(UUID appUserId, AppUserRequest appUserRequest) {
@@ -61,6 +59,6 @@ public class AppUserServiceImp implements AppUserService {
             var SaveUser = appUserRepository.save(catEntity);
             return SaveUser.toDto();
         }
-        throw new NoSuchElementException("User not found");
+        throw new NoSuchElementException("not found user id: " + appUserId);
     }
 }

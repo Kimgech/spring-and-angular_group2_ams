@@ -17,10 +17,4 @@ public interface AppUserRepository extends JpaRepository<AppUser, UUID> {
     void bookmark( UUID teacherId, UUID articleId);
 
 
-
-
-
-
-
-
 }

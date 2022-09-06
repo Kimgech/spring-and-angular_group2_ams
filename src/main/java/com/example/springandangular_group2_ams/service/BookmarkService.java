@@ -20,12 +20,11 @@ public interface BookmarkService {
  Page<ArticleDto> findAllById(UUID id, Integer page, Integer size);
 
 
-
  //get all bookmark by app_user_id
  PageResponse<?> fetchBookmark( UUID id,
-                               Integer page,
-                               Integer size);
+                                Integer page,
+                                Integer size);
 
-
+ ArtcileResponse<ArticleDto> deleteBookmark(UUID id, UUID articleId);
 
 }

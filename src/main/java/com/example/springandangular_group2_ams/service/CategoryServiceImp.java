@@ -30,16 +30,13 @@ public class CategoryServiceImp implements CategoryService{
     public CategoryDto newCategory(CategoryRequest categoryRequest) {
         var category = categoryRequest.toEntity();
         var saveCategory = categoryRepository.save(category);
-
         return saveCategory.toDto();
     }
 
     @Override
     public CategoryDto updateCategory(Long id, CategoryRequest categoryRequest) {
-
             var catEntity = categoryRequest.toEntity(id);
             return categoryRepository.save(catEntity).toDto();
-
     }
 
     @Override
@@ -52,7 +49,6 @@ public class CategoryServiceImp implements CategoryService{
     public Page<CategoryDto> searchByName(String name
             , Integer page, Integer size
     ) {
-
         var pageRequest = PageRequest.of(page,size);
         return categoryRepository.findAllByNameContaining(name , pageRequest);
 

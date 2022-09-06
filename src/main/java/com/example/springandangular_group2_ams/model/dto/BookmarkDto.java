@@ -16,5 +16,4 @@ public class BookmarkDto implements Serializable {
     private UUID appUserId;
     private UUID articleId;
 
-
 }

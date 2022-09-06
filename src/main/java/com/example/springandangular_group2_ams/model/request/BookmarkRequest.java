@@ -15,7 +15,6 @@ public class BookmarkRequest implements Serializable {
 
     private UUID articleId;
 
-
     public Article toEntity(){
         var article = new Article();
         article.setId(articleId);

@@ -21,36 +21,20 @@ public class FileController {
 
     private final FileService fileService;
 
-
     //upload multi files
     @JsonBackReference
     @PostMapping(value = "/files",consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
     @Operation(summary = "Upload multi Files")
     public FileResponse<?> savaFiles( @RequestPart(value = "files",required = false)  MultipartFile[] files)   {
-
         return fileService.savaFiles(files);
 
     }
-
-
-
-
-
-
-
 
     // Single File download
     @GetMapping("/files/{filename}")
     @Operation(summary = "Download a File")
     public ResponseEntity<Resource> downloadFile(@PathVariable("filename") String fileName) throws IOException {
-
         return fileService.downloadFile(fileName);
-
     }
-
-
-
-
-
 
 }

@@ -33,12 +33,4 @@ public class ArticleDto implements Serializable {
         this.comments=comments;
     }
 
-    public ArticleDto(UUID id, String title, String description, Boolean isPublished, List<CategoryDto> categoryList, AppUserDto user) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.isPublished = isPublished;
-        this.category = categoryList;
-        this.user = user;
-    }
 }

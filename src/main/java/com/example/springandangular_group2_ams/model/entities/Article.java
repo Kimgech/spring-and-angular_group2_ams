@@ -66,27 +66,4 @@ public class Article {
                         .collect(Collectors.toList())
         );
     }
-//    public ArticleDto toDto(){
-//        return new ArticleDto(
-//                this.id,
-//                this.title,
-//                this.description,
-//                this.isPublished,
-//                this.categoryList.stream()
-//                        .map(Category::toDto)
-//                        .collect(Collectors.toList()),
-//                this.user.toDto()
-//        );
-//    }
-//    public ArticleDto toDto(){
-//        return new ArticleDto(
-//                this.id,
-//                this.title,
-//                this.description,
-//                this.isPublished,
-//                this.articleCategory.stream()
-//                        .map(Category::toDto)
-//                        .collect(Collectors.toList())
-//        );
-//    }
 }
