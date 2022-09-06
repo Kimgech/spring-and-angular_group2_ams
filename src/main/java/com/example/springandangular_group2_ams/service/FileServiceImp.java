@@ -62,7 +62,7 @@ public class FileServiceImp implements FileService{
 
     //display/save file
     @Override
-    public ResponseEntity<Resource> downloadFile(String fileName) {
+    public ResponseEntity<Resource> downloadFile(String fileName) throws IOException {
         try {
 
             //dir that store file
@@ -86,8 +86,8 @@ public class FileServiceImp implements FileService{
                     //Set the body of the response entity and returns it
                     .body(new InputStreamResource(resource.getInputStream()));
 
-        }catch (Exception e) {
-            return null;
+        }catch (IOException  e) {
+           throw  new IOException (e.getMessage());
         }
 
     }
@@ -98,7 +98,7 @@ public class FileServiceImp implements FileService{
 
 
     @Override
-    public FileResponse<?> savaFiles(MultipartFile[] files) {
+    public FileResponse<?> savaFiles(MultipartFile[] files) throws IOException {
                 var res = new FileResponse<>();
         try{
             //append string
@@ -110,11 +110,13 @@ public class FileServiceImp implements FileService{
                     res.setStatus("201");
                     res.setMessage("successfully uploaded file");
                 }
+
             return res;
 
         }catch (Exception exception){
 
-            return null;
+            throw  new IOException (exception.getMessage());
+
         }
     }
 

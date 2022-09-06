@@ -23,8 +23,27 @@ public class BookmarkServiceImp implements BookmarkService{
     // create bookmarks
     @Override
     public void bookmarks(UUID teacherId,UUID articleId ) {
+        var res = new ArtcileResponse<ArticleDto>();
 
+        try {
             bookmarkRepository.bookmark(teacherId,articleId);
+
+            if(!bookmarkRepository.findById(teacherId,articleId).toDto().equals(null)) {
+                bookmarkRepository.deleteById(teacherId,articleId);
+                bookmarkRepository.bookmark(teacherId,articleId);
+
+            }
+        }catch (Exception exception){
+            res.setStatus("206");
+            res.setMessage("cannot find user id: "+teacherId);
+        }
+
+
+
+
+
+
+
     }
 
 
@@ -38,14 +57,29 @@ public class BookmarkServiceImp implements BookmarkService{
         try {
 
             res.setPayload(bookmarkRepository.findById(teacherId,articleId).toDto());
-            res.setStatus("200");
-            res.setMessage("successful find article");
+            if(bookmarkRepository.findById(teacherId,articleId).toDto().equals(null)){
+                if(bookmarkRepository.findByTeacherId(teacherId).toDto().equals(null)){
+                    res.setStatus("206");
+                    res.setMessage("cannot find user id: "+teacherId);
+                    return  res;
+                }
+                if(bookmarkRepository.findByArticleId(articleId).toDto().equals(null)){
+                    res.setStatus("206");
+                    res.setMessage("cannot find artcile id: "+articleId);
+                    return  res;
+
+                }
+            }
+
+
+            res.setStatus("201");
+            res.setMessage("added bookmark successfully for user: "+teacherId);
             return  res;
 
         }catch (Exception exception){
 
-           res.setStatus("500");
-           res.setMessage("can not find article");
+            res.setStatus("206");
+            res.setMessage("cannot find user id: "+teacherId);
            return  res;
 
         }
@@ -62,11 +96,14 @@ public class BookmarkServiceImp implements BookmarkService{
     public Page<ArticleDto> findAllById(UUID id, Integer page, Integer size) {
 
 
+
             //get pagination following page a& size
             var pageRequest = PageRequest.of(page, size);
             var result = bookmarkRepository.findAllById(id,pageRequest);
             //return a new Page with the content of the current one mapped by the given Function
             return result.map(Article::toDto);
+
+
 
 
     }

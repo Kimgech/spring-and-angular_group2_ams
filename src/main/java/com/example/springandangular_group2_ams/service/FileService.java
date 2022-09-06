@@ -14,9 +14,9 @@ public interface FileService {
 
 
     //display/save file
-    ResponseEntity<Resource> downloadFile(String fileName);
+    ResponseEntity<Resource> downloadFile(String fileName) throws IOException;
 
 
     //multi upload
-    FileResponse<?> savaFiles(MultipartFile[] files);
+    FileResponse<?> savaFiles(MultipartFile[] files) throws IOException;
 }

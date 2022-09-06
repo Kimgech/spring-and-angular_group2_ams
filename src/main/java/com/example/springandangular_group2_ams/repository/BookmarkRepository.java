@@ -29,6 +29,16 @@ public interface BookmarkRepository extends JpaRepository<Article,UUID> {
     Article findById(UUID teacherId,UUID  articleId);
 
 
+    @Modifying
+    @Query(value ="delete from user_bookmarked_articles a  " +
+            " where a.app_user_id= :teacherId and a.bookmarked_article_id= :articleId ", nativeQuery = true)
+    @Transactional
+    void deleteById(UUID teacherId,UUID  articleId);
+
+
+
+
+
 
 
     @Modifying //know insert/update
@@ -37,4 +47,14 @@ public interface BookmarkRepository extends JpaRepository<Article,UUID> {
     @Transactional //commit data
     void bookmark( UUID teacherId, UUID articleId);
 
+    @Query(value ="select distinct a.* from articles a  " +
+            "inner join user_bookmarked_articles b on b.bookmarked_article_id = a.id " +
+            " where b.app_user_id= :teacherId ", nativeQuery = true)
+    Article findByTeacherId(UUID teacherId);
+
+
+    @Query(value ="select distinct a.* from articles a  " +
+            "inner join user_bookmarked_articles b on b.bookmarked_article_id = a.id " +
+            " where b.bookmarked_article_id= :articleId", nativeQuery = true)
+    Article findByArticleId(UUID articleId);
 }

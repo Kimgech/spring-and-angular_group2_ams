@@ -6,6 +6,7 @@ import com.example.springandangular_group2_ams.model.request.BookmarkRequest;
 import com.example.springandangular_group2_ams.model.response.ArtcileResponse;
 import com.example.springandangular_group2_ams.model.response.PageResponse;
 import com.example.springandangular_group2_ams.service.BookmarkService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,10 @@ public class BookmarkController {
 
     //add bookmark
     @PostMapping("/bookmarks/user/{id}")
+    @Operation(summary = "Create BookmarkArticle  ")
     public ArtcileResponse<ArticleDto> bookmarks(@PathVariable("id") UUID id, @RequestBody BookmarkRequest bookmarkRequest) {
+
+
         //create bookmark
         bookmarkService.bookmarks(id, bookmarkRequest.getArticleId());
 
@@ -41,6 +45,7 @@ public class BookmarkController {
 
     //get all bookmark by app_user_id
     @GetMapping("/bookmarks/user/{id}")
+    @Operation(summary = "Get BookmarkArticle  ")
     public PageResponse<?> fetchBookmark(@PathVariable("id") UUID id,
                                          @RequestParam(defaultValue = "1") Integer page,
                                          @RequestParam(defaultValue = "5") Integer size

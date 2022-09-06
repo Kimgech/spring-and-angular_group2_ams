@@ -26,7 +26,7 @@ public class FileController {
     @JsonBackReference
     @PostMapping(value = "/files",consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
     @Operation(summary = "Upload multi Files")
-    public FileResponse<?> savaFiles( @RequestPart(value = "files",required = false)  MultipartFile[] files)   {
+    public FileResponse<?> savaFiles( @RequestPart(value = "files",required = false)  MultipartFile[] files) throws IOException {
 
         return fileService.savaFiles(files);
 
